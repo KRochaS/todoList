@@ -5,8 +5,6 @@ import TodoListItem from './TodoListItem';
 
 const TodoList = () => {
     const todos: Todo[] = [
-        { id: 1, title: 'Study English', done: false },
-        { id: 2, title: 'Listen podcasts', done: true }
     ];
 
     return (

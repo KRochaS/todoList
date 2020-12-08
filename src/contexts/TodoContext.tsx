@@ -1,5 +1,6 @@
-import React, { createContext } from 'react';
+import React, { createContext, useState } from 'react';
 import { Todo } from '../models/Todo';
+import { get } from '../services/TodoService';
 import { TodoContextType } from './TodoContextType';
 
 export const TodoContext =  createContext<TodoContextType>({
@@ -11,16 +12,23 @@ export const TodoContext =  createContext<TodoContextType>({
 
 const TodoProvider = (props: any) => {
 
-    const todos: Todo[] = [
-        { id: 1, title: 'Study English', done: false },
-        { id: 2, title: 'Listen podcasts', done: true }
-    ];
+    const [todos, setTodos] = useState<Todo[]>(get);
 
-    const addTodo = (title: string) => {};
+    const addTodo = (title: string) => {
+        const todo: Todo = {id: todos.length +1, title: title, done: false};
+        setTodos([...todos, todo]);
+    };
 
-    const removeTodo = (todo: Todo) => {};
+    const removeTodo = (todo: Todo) => {
+        const index = todos.indexOf(todo);
+        setTodos(todos.filter((_, i) => i !== index));
+    };
 
-    const toggle = (todo: Todo) => {};
+    const toggle = (todo: Todo) => {
+        const index = todos.indexOf(todo);
+        todos[index].done = !todo.done;
+        setTodos([...todos]);
+    };
 
     return(
         <TodoContext.Provider value={
